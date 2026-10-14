@@ -16,7 +16,7 @@ A BepInEx mod for [Sephiria](https://store.steampowered.com/), designed to chang
 
 ## Installation
 
-1. Install BepInEx 5 for Sephiria and move folder like \Sephiria\BepInEx
+1. Install BepInEx 5 for Sephiria and move folder like 'Sephiria/BepInEx/'
 2. Download the compiled `KeyboardFollow.dll` from the Releases page.
 3. Copy `KeyboardFollow.dll` into the game's `BepInEx/plugins/` directory.
 4. Launch the game.
