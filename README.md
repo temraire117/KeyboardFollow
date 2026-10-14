@@ -11,7 +11,7 @@ A BepInEx mod for [Sephiria](https://store.steampowered.com/), designed to chang
 ## Requirements
 
 - Sephiria (PC version)
-- BepInEx 5 (Insdie Sephiria folder)
+- BepInEx 5 (Inside Sephiria folder)
 - A compatible version of the game and its assemblies
 
 ## Installation
