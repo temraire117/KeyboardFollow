@@ -26,21 +26,10 @@ namespace KeyboardFollow
             harmony = new Harmony("com.acsard.sephiria.keyboardfollow");
             harmony.PatchAll();
 
-            Logger.LogInfo("========== KeyboardFollow loaded ==========");
-            Logger.LogInfo("LastDirection = " + LastDirection);
+    
         }
 
-        public static void Log(string message)
-        {
-            if (Instance != null)
-                Instance.Logger.LogInfo(message);
-        }
-
-        public static void LogError(string message)
-        {
-            if (Instance != null)
-                Instance.Logger.LogError(message);
-        }
+     
 
         private void Update()
         {
@@ -58,11 +47,6 @@ namespace KeyboardFollow
             if (direction.sqrMagnitude > 0f)
             {
                 Vector2 newDirection = direction.normalized;
-                if (newDirection != LastDirection)
-                {
-                    LastDirection = newDirection;
-                    Log("[KEYBOARD] LastDirection = " + LastDirection);
-                }
             }
         }
 
@@ -98,12 +82,7 @@ namespace KeyboardFollow
                 return;
 
             lastLogTime = Time.unscaledTime;
-            KeyboardFollowPlugin.Log(
-                "[WEAPON UPDATE] LastDirection=" +
-                KeyboardFollowPlugin.LastDirection +
-                ", aimedPositionClientside=" +
-                __instance.aimedPositionClientside
-            );
+          
         }
     }
 
@@ -150,10 +129,7 @@ namespace KeyboardFollow
                 return;
 
             attackDirection = direction;
-            KeyboardFollowPlugin.Log(
-                "[SUB ATTACK] Original=" + original +
-                ", Forced=" + attackDirection
-            );
+       
         }
     }
 
@@ -178,11 +154,7 @@ namespace KeyboardFollow
             __instance.attackDirection =
                 new Vector3(direction.x, direction.y, 0f);
 
-            KeyboardFollowPlugin.Log(
-                "[BASIC ATTACK SWING PREFIX] idx=" + idx +
-                ", Original=" + original +
-                ", Forced=" + __instance.attackDirection
-            );
+           
         }
     }
 
@@ -207,15 +179,6 @@ namespace KeyboardFollow
             if (weapon == null)
                 return;
 
-            if (Time.unscaledTime - lastLogTime >= 1f)
-            {
-                lastLogTime = Time.unscaledTime;
-                KeyboardFollowPlugin.Log(
-                    "[DAGGER LATEUPDATE] isServer=" + __instance.isServer +
-                    ", ownerNull=" + (weapon.unitAvatar == null) +
-                    ", LastDirection=" + KeyboardFollowPlugin.LastDirection
-                );
-            }
 
             if (!__instance.isServer)
                 return;
@@ -254,58 +217,11 @@ namespace KeyboardFollow
             weapon.NetworkattackDirection =
                 new Vector3(direction.x, direction.y, 0f);
 
-            KeyboardFollowPlugin.Log(
-                "[DAGGER OVERRIDE] Before=" + before +
-                ", After=" + weapon.NetworkattackDirection
-            );
+          
         }
     }
 
-    // --------------------------------------------------
-    // 마법 진단: NewWeaponController의 시전 입력
-    // --------------------------------------------------
+  
 
-    [HarmonyPatch(typeof(NewWeaponController), "CastButtonDown")]
-    public static class NewWeaponCastDebugPatch
-    {
-        private static void Prefix(NewWeaponController __instance)
-        {
-            KeyboardFollowPlugin.Log(
-                "[NEW CAST BUTTON DOWN] aimedPosition=" +
-                __instance.aimedPosition
-            );
-        }
-    }
-
-    // --------------------------------------------------
-    // 마법 진단: NewWeaponController의 애니메이션 발사 이벤트
-    // --------------------------------------------------
-
-    [HarmonyPatch(typeof(NewWeaponController), "MagicEventAnimation_StartFire")]
-    public static class NewWeaponMagicFireDebugPatch
-    {
-        private static void Prefix(NewWeaponController __instance)
-        {
-            KeyboardFollowPlugin.Log(
-                "[NEW MAGIC FIRE] aimedPosition=" +
-                __instance.aimedPosition
-            );
-        }
-    }
-
-    // --------------------------------------------------
-    // 마법 진단: 기존 WeaponController의 발사 이벤트
-    // --------------------------------------------------
-
-    [HarmonyPatch(typeof(WeaponController), "MagicEventAnimation_StartFire")]
-    public static class OldWeaponMagicFireDebugPatch
-    {
-        private static void Prefix(WeaponController __instance)
-        {
-            KeyboardFollowPlugin.Log(
-                "[OLD MAGIC FIRE] aimedPosition=" +
-                __instance.aimedPosition
-            );
-        }
-    }
+   
 }
